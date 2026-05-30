@@ -11,13 +11,17 @@ jobs:
     name: Build & Publish Release
     runs-on: ubuntu-latest
 
+    # Benötigte Berechtigungen für den GITHUB_TOKEN
+    permissions:
+      contents: write  # Erlaubt das Erstellen von Releases & Hochladen von Assets
+
     steps:
 
       # 1. Repository auschecken
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # 2. Java 17 einrichten
+      # 2. Java 21 einrichten
       - name: Set up Java 21
         uses: actions/setup-java@v4
         with:
@@ -38,8 +42,8 @@ jobs:
       - name: Build with Maven
         run: mvn clean package -DskipTests --batch-mode
 
-      # 6. JAR umbenennen (shade-jar hat manchmal "-shaded" Suffix)
-      - name: Rename JAR
+      # 6. JAR-Pfad ermitteln (shade-jar hat manchmal "-shaded" Suffix)
+      - name: Find JAR
         run: |
           JAR=$(find target -name "RPMG-*.jar" ! -name "*-shaded.jar" | head -1)
           echo "JAR_PATH=$JAR" >> $GITHUB_ENV
@@ -67,6 +71,6 @@ jobs:
             *Automatisch gebaut mit GitHub Actions*
           files: ${{ env.JAR_PATH }}
           draft: false
-          prerelease: false
+          prerelease: ${{ contains(github.ref_name, 'SNAPSHOT') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
