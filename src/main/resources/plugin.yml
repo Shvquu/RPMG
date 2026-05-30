@@ -1,0 +1,23 @@
+name: RPMG
+version: '${project.version}'
+main: de.voxellabs.resourcepack.resourcepack.RPMG
+api-version: '1.21'
+author: LittleSophyy
+description: Enforces resource packs for Minecraft servers
+website: https://github.com/Shvquu/RPMG
+
+commands:
+  resourcepack:
+    description: Hauptbefehl des ResourcePackEnforcer Plugins
+    usage: /resourcepack <reload|send>
+    permission: resourcepack.admin
+    aliases: [rp]
+
+permissions:
+  resourcepack.admin:
+    description: Erlaubt die Verwaltung des Resourcepack-Plugins
+    default: op
+  resourcepack.bypass:
+    description: Erlaubt das Umgehen der Resourcepack-Pflicht
+    default: false
+

@@ -1,0 +1,48 @@
+# ============================================
+#        ResourcePackEnforcer - Config
+# ============================================
+
+resourcepack:
+  # Die direkte Download-URL zum Resourcepack (.zip Datei)
+  url: "https://example.com/resourcepack.zip"
+
+  # Der SHA-1 Hash des Resourcepacks (für Validierung)
+  # Leer lassen oder "none" wenn kein Hash verwendet werden soll
+  hash: "none"
+
+  # Prompt-Nachricht die dem Spieler angezeigt wird (1.20.3+)
+  # Leer lassen für Standard-Nachricht
+  prompt: "&eBitte akzeptiere das Resourcepack, um den Server zu betreten!"
+
+  # Soll das Resourcepack erzwungen werden? (true = Kick bei Ablehnung)
+  enforce: true
+
+  # Verzögerung in Ticks bevor das Pack gesendet wird (20 Ticks = 1 Sekunde)
+  send-delay: 20
+
+  # Checkt ob es eine neue Version gibt, wenn ja. Wird das Plugin deaktiviert.
+  update-check: true
+
+messages:
+  # Nachricht beim Kick (Ablehnung des Resourcepacks)
+  # Unterstützt Farb-Codes mit & und Zeilenumbrüche mit \n
+  kick-message: |
+    &c&lResourcepack abgelehnt!
+    &7Du musst das Resourcepack akzeptieren,
+    &7um diesen Server betreten zu können.
+    &8&oTreten Sie dem Server erneut bei und akzeptieren Sie das Pack.
+
+  # Nachricht wenn das Resourcepack erfolgreich geladen wurde
+  pack-loaded: "&a&lResourcepack erfolgreich geladen!"
+
+  # Nachricht wenn das Resourcepack fehlschlägt
+  pack-failed: "&c&lFehler beim Laden des Resourcepacks. Bitte neu verbinden!"
+
+  # Prefix für Admin-Nachrichten
+  prefix: "&8[&6ResourcePack&8] &r"
+
+  # Reload-Nachricht
+  reload-success: "&aKonfiguration erfolgreich neu geladen!"
+
+  # Nachricht beim manuellen Senden
+  pack-sent: "&aDas Resourcepack wurde an %player% gesendet!"
