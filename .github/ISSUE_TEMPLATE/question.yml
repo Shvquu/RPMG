@@ -1,0 +1,65 @@
+name: ❓ Frage / Support
+description: Du hast eine Frage zur Einrichtung oder Nutzung des Plugins
+title: "[FRAGE] "
+labels: ["question"]
+assignees: []
+
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Du hast eine Frage? Kein Problem — wir helfen gerne!
+        Bitte beschreibe dein Anliegen so genau wie möglich.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Vorabbcheck
+      options:
+        - label: Ich habe die [README](https://github.com/Shvquu/RPMG#readme) und die `config.yml` Kommentare gelesen.
+          required: true
+        - label: Ich habe die [Issues](https://github.com/Shvquu/RPMG/issues) nach einer ähnlichen Frage durchsucht.
+          required: true
+
+  - type: textarea
+    id: question
+    attributes:
+      label: ❓ Deine Frage
+      description: Was möchtest du wissen oder was funktioniert nicht wie erwartet?
+      placeholder: "Wie konfiguriere ich...? / Was bedeutet...?"
+    validations:
+      required: true
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 🔌 Plugin-Version
+      placeholder: "z.B. 1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: server-version
+    attributes:
+      label: 🖥️ Server-Version
+      placeholder: "z.B. Paper 1.20.4 #496"
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: ⚙️ config.yml
+      description: Füge deine aktuelle config.yml ein (optional, aber hilfreich).
+      render: yaml
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 📝 Weitere Infos
+      description: Alles weitere was uns helfen könnte, deine Frage zu beantworten.
+    validations:
+      required: false

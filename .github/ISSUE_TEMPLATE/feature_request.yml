@@ -1,0 +1,67 @@
+name: ✨ Feature Request
+description: Schlage eine neue Funktion oder Verbesserung vor
+title: "[FEATURE] "
+labels: ["enhancement"]
+assignees: []
+
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Danke für deinen Verbesserungsvorschlag!
+        Bitte beschreibe deine Idee so genau wie möglich.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Vorabbcheck
+      options:
+        - label: Ich habe die [Issues](https://github.com/Shvquu/RPMG/issues) durchsucht und keinen ähnlichen Vorschlag gefunden.
+          required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: 🤔 Problem / Motivation
+      description: Welches Problem löst dieses Feature? Was fehlt dir aktuell?
+      placeholder: "Ich kann aktuell nicht... / Es wäre hilfreich wenn..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: solution
+    attributes:
+      label: 💡 Vorgeschlagene Lösung
+      description: Wie stellst du dir die Umsetzung vor?
+      placeholder: "Es könnte eine Option in der config.yml geben, die..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 🔄 Alternativen
+      description: Hast du andere Lösungswege in Betracht gezogen?
+    validations:
+      required: false
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: 📊 Priorität
+      description: Wie wichtig ist dieses Feature für dich?
+      options:
+        - "🟢 Nice to have"
+        - "🟡 Wichtig"
+        - "🔴 Dringend / Blocker"
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 📝 Zusätzliche Informationen
+      description: Weitere Hinweise, Mockups oder Beispiele aus anderen Plugins.
+    validations:
+      required: false

@@ -1,0 +1,120 @@
+name: 🐛 Bug Report
+description: Melde einen Fehler oder unerwartetes Verhalten
+title: "[BUG] "
+labels: ["bug", "needs triage"]
+assignees: []
+
+body:
+
+  - type: markdown
+    attributes:
+      value: |
+        Danke, dass du dir die Zeit nimmst einen Bug zu melden!
+        Bitte fülle das Formular so vollständig wie möglich aus.
+
+  - type: checkboxes
+    id: checklist
+    attributes:
+      label: Vorabbcheck
+      description: Bitte bestätige folgendes bevor du den Bug meldest.
+      options:
+        - label: Ich habe die [Issues](https://github.com/Shvquu/RPMG/issues) durchsucht und keinen doppelten Eintrag gefunden.
+          required: true
+        - label: Ich verwende die [neueste Version](https://github.com/Shvquu/RPMG/releases/latest) des Plugins.
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: 🐛 Beschreibung
+      description: Was ist passiert? Beschreibe den Bug so klar wie möglich.
+      placeholder: "Beim Joinen des Servers wird das Resourcepack nicht gesendet..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 🔁 Schritte zur Reproduktion
+      description: Wie kann der Bug reproduziert werden?
+      placeholder: |
+        1. Server starten
+        2. Mit einem Spieler joinen
+        3. Resourcepack ablehnen
+        4. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: ✅ Erwartetes Verhalten
+      description: Was hättest du erwartet, was passiert?
+      placeholder: "Der Spieler sollte mit der konfigurierten Nachricht gekickt werden."
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: ❌ Tatsächliches Verhalten
+      description: Was ist stattdessen passiert?
+      placeholder: "Der Spieler wurde nicht gekickt und konnte den Server betreten."
+    validations:
+      required: true
+
+  - type: textarea
+    id: stacktrace
+    attributes:
+      label: 📄 Fehlermeldung / Stacktrace
+      description: Füge hier den Stacktrace aus der Konsole ein (falls vorhanden).
+      render: text
+      placeholder: "[ERROR] ..."
+    validations:
+      required: false
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: 🔌 Plugin-Version
+      placeholder: "z.B. 1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: server-version
+    attributes:
+      label: 🖥️ Server-Version
+      placeholder: "z.B. Paper 1.20.4 #496"
+    validations:
+      required: true
+
+  - type: input
+    id: java-version
+    attributes:
+      label: ☕ Java-Version
+      placeholder: "z.B. Java 21.0.2"
+    validations:
+      required: true
+
+  - type: textarea
+    id: config
+    attributes:
+      label: ⚙️ config.yml
+      description: Füge deine aktuelle config.yml ein (entferne sensible Daten wie URLs).
+      render: yaml
+      placeholder: |
+        resourcepack:
+          url: "..."
+          enforce: true
+          ...
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional
+    attributes:
+      label: 📝 Zusätzliche Informationen
+      description: Weitere Hinweise, Screenshots oder relevante Infos.
+    validations:
+      required: false
