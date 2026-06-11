@@ -5,6 +5,7 @@
 resourcepack:
   # Die direkte Download-URL zum Resourcepack (.zip Datei)
   url: "https://example.com/resourcepack.zip"
+  fallback-url: "https://example.com/resourcepack.zip"
 
   # Der SHA-1 Hash des Resourcepacks (für Validierung)
   # Leer lassen oder "none" wenn kein Hash verwendet werden soll
@@ -22,6 +23,10 @@ resourcepack:
 
   # Checkt ob es eine neue Version gibt, wenn ja. Wird das Plugin deaktiviert.
   update-check: true
+
+reconnect:
+  max-retries: 2
+  retry-delay: 10
 
 messages:
   # Nachricht beim Kick (Ablehnung des Resourcepacks)
