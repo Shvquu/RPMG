@@ -74,7 +74,7 @@ public class ResourcePackManager {
             try {
                 if (packHash != null && packHash.length > 0) {
                     if (sendPrompt) {
-                        player.setResourcePack(packUrl, packHash, enforce, prompt);
+                        player.setResourcePack(packUrl, packHash, prompt, enforce);
                     } else {
                         player.setResourcePack(packUrl, packHash, enforce);
                     }
