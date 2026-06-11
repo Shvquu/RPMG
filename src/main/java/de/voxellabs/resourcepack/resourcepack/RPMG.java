@@ -1,12 +1,15 @@
 package de.voxellabs.resourcepack.resourcepack;
 
 import de.voxellabs.resourcepack.resourcepack.commands.ResourcePackCommand;
+import de.voxellabs.resourcepack.resourcepack.hook.ViaVersionHook;
 import de.voxellabs.resourcepack.resourcepack.listeners.PlayerJoinListener;
 import de.voxellabs.resourcepack.resourcepack.listeners.ResourcePackListener;
+import de.voxellabs.resourcepack.resourcepack.manager.ReconnectManager;
 import de.voxellabs.resourcepack.resourcepack.manager.ResourcePackManager;
 import de.voxellabs.resourcepack.resourcepack.utils.ConfigManager;
 import de.voxellabs.resourcepack.resourcepack.utils.ConsoleBanner;
 import de.voxellabs.resourcepack.resourcepack.utils.UpdateChecker;
+import de.voxellabs.resourcepack.resourcepack.utils.Validator;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -19,6 +22,9 @@ public final class RPMG extends JavaPlugin {
     private ResourcePackManager packManager;
     private ConfigManager configManager;
     private UpdateChecker updateChecker;
+    private ReconnectManager reconnectManager;
+    private Validator validator;
+    private ViaVersionHook viaVersionHook;
 
     @Override
     public void onLoad() {
@@ -30,7 +36,11 @@ public final class RPMG extends JavaPlugin {
         configManager = new ConfigManager(this);
         configManager.load();
 
+        viaVersionHook = new ViaVersionHook(this);
+
         packManager = new ResourcePackManager(this);
+        reconnectManager = new ReconnectManager(this);
+
 
         // Listener registrieren
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
@@ -49,6 +59,19 @@ public final class RPMG extends JavaPlugin {
                 getDescription().getVersion(),
                 packManager.getPackUrl(),
                 packManager.isEnforce()
+        );
+
+        // Pack-URL validieren (asynchron) und ggf. auf Fallback wechseln
+        validator = new Validator(this);
+        validator.validateAsync(
+                packManager.getPackUrl(),
+                packManager.getFallbackUrl(),
+                (reachable, activeUrl, usingFallback) -> {
+                    if (reachable && usingFallback) {
+                        packManager.setActiveUrl(activeUrl);
+                        getLogger().warning("Fallback-URL wird aktiv verwendet: " + activeUrl);
+                    }
+                }
         );
 
         updateChecker = new UpdateChecker(this);
