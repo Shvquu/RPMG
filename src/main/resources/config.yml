@@ -5,14 +5,15 @@
 resourcepack:
   # Die direkte Download-URL zum Resourcepack (.zip Datei)
   url: "https://example.com/resourcepack.zip"
-  fallback-url: "https://example.com/resourcepack.zip"
 
-  # Der SHA-1 Hash des Resourcepacks (für Validierung)
-  # Leer lassen oder "none" wenn kein Hash verwendet werden soll
+  # Fallback-URL falls die primäre URL nicht erreichbar ist.
+  # Wird beim Start automatisch geprüft. "none" zum Deaktivieren.
+  fallback-url: "none"
+
+  # SHA-1 Hash des Resourcepacks (oder "none")
   hash: "none"
 
-  # Prompt-Nachricht die dem Spieler angezeigt wird (1.20.3+)
-  # Leer lassen für Standard-Nachricht
+  # Prompt-Nachricht die dem Spieler angezeigt wird (ab 1.17+)
   prompt: "&eBitte akzeptiere das Resourcepack, um den Server zu betreten!"
 
   # Soll das Resourcepack erzwungen werden? (true = Kick bei Ablehnung)
@@ -21,26 +22,38 @@ resourcepack:
   # Verzögerung in Ticks bevor das Pack gesendet wird (20 Ticks = 1 Sekunde)
   send-delay: 20
 
-  # Checkt ob es eine neue Version gibt, wenn ja. Wird das Plugin deaktiviert.
-  update-check: true
-
+# ============================================
+#           Wiederholungsversuche
+# ============================================
 reconnect:
+  # Wie viele Versuche bekommt ein Spieler bevor er gekickt wird?
+  # 0 = deaktiviert (sofort kicken)
   max-retries: 2
+
+  # Wartezeit in Sekunden bis das Pack erneut gesendet wird
   retry-delay: 10
 
+# ============================================
+#                Nachrichten
+# ============================================
 messages:
-  # Nachricht beim Kick (Ablehnung des Resourcepacks)
-  # Unterstützt Farb-Codes mit & und Zeilenumbrüche mit \n
-  kick-message: |
+  # Kick-Nachricht wenn alle Versuche aufgebraucht sind
+  kick-message: |-
     &c&lResourcepack abgelehnt!
     &7Du musst das Resourcepack akzeptieren,
     &7um diesen Server betreten zu können.
     &8&oTreten Sie dem Server erneut bei und akzeptieren Sie das Pack.
 
+  # Nachricht bei jedem Fehlversuch (Platzhalter: %retries%, %delay%)
+  retry-message: "&eResourcepack abgelehnt! Du hast noch &c%retries% Versuch(e)&e. Erneuter Versuch in &c%delay%s&e..."
+
+  # Nachricht wenn alle Versuche aufgebraucht sind
+  retry-expired-message: "&cAlle Versuche aufgebraucht. Du wirst vom Server getrennt."
+
   # Nachricht wenn das Resourcepack erfolgreich geladen wurde
   pack-loaded: "&a&lResourcepack erfolgreich geladen!"
 
-  # Nachricht wenn das Resourcepack fehlschlägt
+  # Nachricht wenn der Download fehlschlägt
   pack-failed: "&c&lFehler beim Laden des Resourcepacks. Bitte neu verbinden!"
 
   # Prefix für Admin-Nachrichten
@@ -49,5 +62,5 @@ messages:
   # Reload-Nachricht
   reload-success: "&aKonfiguration erfolgreich neu geladen!"
 
-  # Nachricht beim manuellen Senden
+  # Nachricht beim manuellen Senden (Platzhalter: %player%)
   pack-sent: "&aDas Resourcepack wurde an %player% gesendet!"
