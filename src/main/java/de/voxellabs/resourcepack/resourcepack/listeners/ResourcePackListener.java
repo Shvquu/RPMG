@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 
 public class ResourcePackListener implements Listener {
@@ -21,46 +22,45 @@ public class ResourcePackListener implements Listener {
         Player player = event.getPlayer();
         PlayerResourcePackStatusEvent.Status status = event.getStatus();
 
-        // Bypass-Permission prüfen
-        if (player.hasPermission("resourcepack.bypass")) {
-            return;
-        }
+        if (player.hasPermission("resourcepack.bypass")) return;
 
         switch (status) {
 
             case SUCCESSFULLY_LOADED:
-                // Resourcepack erfolgreich geladen
-                String loadedMsg = plugin.getConfigManager().getString("messages.pack-loaded", "&a&lResourcepack erfolgreich geladen!");
+                plugin.getReconnectManager().onSuccess(player);
+                String loadedMsg = plugin.getConfig().getString("messages.pack-loaded",
+                        "&a&lResourcepack erfolgreich geladen!");
                 player.sendMessage(ColorUtils.colorize(loadedMsg));
-                plugin.getLogger().info(player.getName() + " hat das Resourcepack akzeptiert und geladen.");
+                plugin.getLogger().info(player.getName() + " hat das Resourcepack geladen.");
                 break;
 
             case DECLINED:
-                // Spieler hat das Resourcepack abgelehnt
-                if (plugin.getPackManager().isEnforce()) {
+                if (!plugin.getPackManager().isEnforce()) break;
+
+                // ReconnectManager versucht erst einen Retry — kickt nur wenn keine Versuche mehr übrig
+                boolean retrying = plugin.getReconnectManager().handleDecline(player);
+                if (!retrying) {
                     kickPlayer(player);
                 }
                 break;
 
             case FAILED_DOWNLOAD:
-                // Download fehlgeschlagen
-                String failedMsg = plugin.getConfigManager().getString("messages.pack-failed",
+                String failedMsg = plugin.getConfig().getString("messages.pack-failed",
                         "&c&lFehler beim Laden des Resourcepacks. Bitte neu verbinden!");
                 player.sendMessage(ColorUtils.colorize(failedMsg));
-                plugin.getLogger().warning(player.getName() + " hatte einen Fehler beim Laden des Resourcepacks.");
+                plugin.getLogger().warning(player.getName() + " hatte einen Download-Fehler.");
 
-                // Optional: auch bei Fehler kicken wenn enforce aktiviert
                 if (plugin.getPackManager().isEnforce()) {
-                    plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
-                        if (player.isOnline()) {
-                            kickPlayer(player);
-                        }
-                    }, 40L);
+                    boolean retryingFailed = plugin.getReconnectManager().handleDecline(player);
+                    if (!retryingFailed) {
+                        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+                            if (player.isOnline()) kickPlayer(player);
+                        }, 40L);
+                    }
                 }
                 break;
 
             case ACCEPTED:
-                // Spieler hat angenommen, Download läuft
                 plugin.getLogger().info(player.getName() + " hat das Resourcepack angenommen. Download läuft...");
                 break;
 
@@ -69,18 +69,20 @@ public class ResourcePackListener implements Listener {
         }
     }
 
-    private void kickPlayer(Player player) {
-        String rawKickMsg = plugin.getConfigManager().getString("messages.kick-message",
-                "&c&lResourcepack abgelehnt!\n&7Du musst das Resourcepack akzeptieren.");
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        plugin.getReconnectManager().onQuit(event.getPlayer());
+    }
 
-        // Zeilenumbrüche verarbeiten und Farben anwenden
+    private void kickPlayer(Player player) {
+        String rawKickMsg = plugin.getConfig().getString("messages.kick-message",
+                "&c&lResourcepack abgelehnt!\n&7Du musst das Resourcepack akzeptieren.");
         String kickMessage = ColorUtils.colorize(rawKickMsg);
 
-        // Kick auf dem Main-Thread ausführen
         plugin.getServer().getScheduler().runTask(plugin, () -> {
             if (player.isOnline()) {
                 player.kickPlayer(kickMessage);
-                plugin.getLogger().info(player.getName() + " wurde wegen Ablehnung des Resourcepacks gekickt.");
+                plugin.getLogger().info(player.getName() + " wurde gekickt (Resourcepack abgelehnt).");
             }
         });
     }
