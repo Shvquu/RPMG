@@ -4,11 +4,13 @@
 
 **Erzwingt ein Resourcepack auf deinem Minecraft-Server — mit Kick-Nachricht, Update-Checker und vollständiger Konfiguration.**
 
-[![Release](https://img.shields.io/github/v/release/Shvquu/RPMG?style=for-the-badge&color=gold)](https://github.com/Shvquu/RPMG/releases/latest)
+[![Latest Release](https://img.shields.io/github/v/release/Shvquu/RPMG?style=for-the-badge&color=gold)](https://github.com/Shvquu/RPMG/releases/latest)
+[![Downloads](https://img.shields.io/github/downloads/Shvquu/RPMG/total?style=for-the-badge&color=brightgreen)](https://github.com/Shvquu/RPMG/releases)
 [![Java](https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk)](https://www.oracle.com/java/)
 [![Spigot](https://img.shields.io/badge/Spigot-1.20+-yellow?style=for-the-badge)](https://www.spigotmc.org/)
 [![License](https://img.shields.io/github/license/Shvquu/RPMG?style=for-the-badge)](LICENSE)
 [![Build](https://img.shields.io/github/actions/workflow/status/Shvquu/RPMG/release.yml?style=for-the-badge)](https://github.com/Shvquu/RPMG/actions)
+[![Latest Release Downloads](https://img.shields.io/github/downloads/Shvquu/RPMG/latest/total?style=for-the-badge&color=blue)](https://github.com/Shvquu/RPMG/releases/latest)
 
 </div>
 
